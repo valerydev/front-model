@@ -286,10 +286,10 @@ describe('Clase "Instance"', function() {
       it('Debe considerar eliminado un elemento que se quitó del arreglo')
       it('Debe detectar modificaciones en elementos segun su pk')
       it('Debe ignorar un elemento que no tenga pk', function() {
-        let user = new Instance('User', { properties: [{id:1, name: 'prop1' }] })
+        let user = new Instance('User', { properties: [{ name: 'prop1' }] })
         user.properties[1] = new Instance('Property', { name: 'prop2' })
 
-        expect(user.modified()).to.have.property('properties').that.is.an('array').with.lengthOf(1)
+        expect(user.modified()).to.have.property('properties').that.is.an('array').with.lengthOf(2)
       })
       it('Debe detectar modificaciones en la instancia de junta en asociaciones muchos a muchos', function(){
         let user = new Instance('User', {

@@ -8,11 +8,12 @@
   },
   "scripts": {
     "test": "nyc --reporter=html --reporter=text mocha test",
-		"coverage": "npm test && firefox coverage/index.html"
+    "coverage": "npm test && firefox coverage/index.html"
   },
   "author": "Raul Contreras",
   "license": "ISC",
   "dependencies": {
+    "collections": "^5.0.6",
     "lodash": "^4.17.4"
   },
   "devDependencies": {
