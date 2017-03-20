@@ -21,31 +21,35 @@ require('collections/set')
 let _ = require('lodash')
 
 
-
-let valueSet = new Set.CollectionsSet( [{id: 1, name: 'Raul'}, 2])
-
-valueSet.contentEquals = (function(self) {
-  return function(a,b) {
-    let equals = (_.isInteger(a)?a:a.id) === (_.isInteger(b)?b:b.id)
-    if(equals) {
-      if(_.isPlainObject(a) && _.isPlainObject(b))
-        _.merge(a,b)
-      else {
-        self.delete(a)
-        self.add(b)
+function createSet(values) {
+  let valueSet = new Set.CollectionsSet( values )
+  valueSet.contentEquals = (function(self) {
+    return function(a,b) {
+      let equals = (_.isInteger(a)?a:a.id) === (_.isInteger(b)?b:b.id)
+      if(equals) {
+        if(_.isPlainObject(a) && _.isPlainObject(b))
+          _.merge(a,b)
+        else {
+          self.delete(a)
+          self.add(b)
+        }
       }
+      return equals
     }
-    return equals
-  }
-})(valueSet)
+  })(valueSet)
 
-valueSet.contentHash = function(obj) {
-  return (_.isInteger(obj) ? obj : obj.id || obj._oid )+''
+  valueSet.contentHash = function(obj) {
+    return (_.isInteger(obj) ? obj : obj.id || obj._oid )+''
+  }
+  return valueSet.clone()
 }
 
-valueSet = valueSet.clone()
+let set1 = createSet([{id: 1, name: 'Raul'}, 2])
+let set2 = createSet([{id: 1, name: 'Raul C'}, 3])
 
-console.log(valueSet.add({id:1, name: 'Andrea'}))
-console.log(valueSet.toArray())
+console.log(set1.group(set2).toArray())
+
+//console.log(valueSet.add({id:1, name: 'Andrea'}))
+//console.log(valueSet.toArray())
 
 
