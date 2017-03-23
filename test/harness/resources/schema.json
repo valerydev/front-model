@@ -76,6 +76,10 @@
     },
     "pk":"id",
     "associations":{
+      "parent": {
+        "model":"PropertyCategory",
+        "type":"BelongsTo"
+      },
       "properties":{
         "model":"Property",
         "type":"HasMany"
@@ -87,6 +91,7 @@
       "id":{
         "type":"BIGINT",
         "primaryKey":true,
+        "defaultValue": 1,
         "validate":{
 
         }
@@ -121,7 +126,6 @@
       },
       "email":{
         "type":"STRING(255)",
-        "defaultValue":"",
         "validate":{
           "isEmail":{
             "arg":true,
@@ -136,6 +140,18 @@
             "msg":"",
             "type":"error"
           }
+        }
+      },
+      "createdAt":{
+        "type":"DATE",
+        "validate":{
+
+        }
+      },
+      "code": {
+        "type": "INTEGER",
+        "validate": {
+
         }
       }
     },

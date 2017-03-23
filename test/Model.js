@@ -1,0 +1,46 @@
+let _ = require('lodash')
+let chai = require('chai')
+let assert = chai.assert
+let expect = chai.expect
+let sinon = require('sinon')
+let sinonChai = require('sinon-chai')
+let chaiAsPromised = require('chai-as-promised')
+let chaiThings = require('chai-things')
+let chaiSubset = require('chai-subset')
+chai.should()
+chai.use(sinonChai)
+chai.use(chaiAsPromised)
+chai.use(chaiThings)
+chai.use(chaiSubset)
+
+let schema = require('./harness/resources/schema.json')
+let models = require('../')(schema);
+let ModelRegistry = models.getClass()
+let { Instance, InstanceSet, Model } = ModelRegistry
+
+describe.only('Clase "Model"', function() {
+  describe('Metodo "defaults"', function() {
+    it('No debe generar valor por defecto para el pk, aunque lo defina el modelo', function() {
+      let defaults = models.User.defaults()
+      expect(defaults).not.to.have.property('id')
+    })
+    it('Debe permitir obtener solo valores por defecto definidos en el modelo', function() {
+      let defaults = models.User.defaults({ strict: true })
+      expect(defaults).to.eql({
+        username: 'unnamed',
+        password: 'secret'
+      })
+    })
+    it('Debe permitir obtener valores por defecto segun el tipo de dato, si no se definio uno en el modelo', function() {
+      let defaults = models.User.defaults({ strict: false })
+      expect(defaults).to.have.property('email').that.equal('')
+      expect(defaults).to.have.property('createdAt').that.equal('')
+      expect(defaults).to.have.property('code').that.equal(0)
+    })
+    it.only('Debe generar valores por defecto en asociaciones a uno', function() {
+      let defaults = models.Property.defaults({ deep: true })
+      expect(defaults).to.have.deep.property('category.name').that.equal('')
+    })
+    it('Debe retornar un objeto plano')
+  })
+})

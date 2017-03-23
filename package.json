@@ -13,7 +13,7 @@
   "author": "Raul Contreras",
   "license": "ISC",
   "dependencies": {
-    "collections": "^5.0.6",
+    "collections": "5.0.6",
     "lodash": "^4.17.4"
   },
   "devDependencies": {
@@ -24,6 +24,7 @@
     "mocha": "^3.2.0",
     "nyc": "^10.1.2",
     "sinon": "^1.17.7",
-    "sinon-chai": "^2.8.0"
+    "sinon-chai": "^2.8.0",
+    "stack-trace": "0.0.9"
   }
 }
