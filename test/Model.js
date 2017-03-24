@@ -18,14 +18,14 @@ let models = require('../')(schema);
 let ModelRegistry = models.getClass()
 let { Instance, InstanceSet, Model } = ModelRegistry
 
-describe.only('Clase "Model"', function() {
+describe('Clase "Model"', function() {
   describe('Metodo "defaults"', function() {
     it('No debe generar valor por defecto para el pk, aunque lo defina el modelo', function() {
       let defaults = models.User.defaults()
       expect(defaults).not.to.have.property('id')
     })
-    it('Debe permitir obtener solo valores por defecto definidos en el modelo', function() {
-      let defaults = models.User.defaults({ strict: true })
+    it('Debe permitir obtener solo valores por defecto en atributos requeridos', function() {
+      let defaults = models.User.defaults({ strict: true, deep: false })
       expect(defaults).to.eql({
         username: 'unnamed',
         password: 'secret'
@@ -37,9 +37,19 @@ describe.only('Clase "Model"', function() {
       expect(defaults).to.have.property('createdAt').that.equal('')
       expect(defaults).to.have.property('code').that.equal(0)
     })
-    it.only('Debe generar valores por defecto en asociaciones a uno', function() {
+    it('Debe generar valores por defecto de asociaciones a uno', function() {
       let defaults = models.Property.defaults({ deep: true })
       expect(defaults).to.have.deep.property('category.name').that.equal('')
+    })
+    it('Debe permitir generar valores por defecto solo en asociaciones requeridas', function() {
+      let defaults = models.Property.defaults({ strict: false, deep: true })
+      expect(defaults).to.have.property('category')
+
+      defaults = models.Property.defaults({ strict: true, deep: true })
+      expect(defaults).not.to.have.property('category')
+
+      defaults = models.User.defaults({ strict: true, deep: true })
+      expect(defaults).to.have.property('profile')
     })
     it('Debe retornar un objeto plano')
   })

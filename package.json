@@ -14,7 +14,8 @@
   "license": "ISC",
   "dependencies": {
     "collections": "5.0.6",
-    "lodash": "^4.17.4"
+    "lodash": "^4.17.4",
+    "validator": "^5.2.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",

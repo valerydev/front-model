@@ -24,9 +24,20 @@ describe('Clase "Instance"', function() {
       expect(new Instance('Property', {_oid: 1})).to.have.property('_oid').that.equal(1)
       expect(new Instance('Property', {})).to.have.property('_oid').which.is.not.empty
     })
+    it('Debe establecer los valores por defecto en atributos requeridos', function() {
+      //If values is undefined or null set default values
+      let user = new Instance('User')
+      expect(user.username).to.be.equal('unnamed')
+      expect(user.password).to.be.equal('secret' )
+
+      //but if values is an empty plain object do not set default values
+      user = new Instance('User', {})
+      expect(user).not.to.have.property('username')
+      expect(user).not.to.have.property('password')
+    })
   })
   describe('Metodo "set"', function() {
-    it('Debe generar error al establecer una asociacion con un valor no entero mayor a cero, objeto, Instance, o ' +
+    it('Debe generar error al establecer una asociacion con un valor entero diferente de cero, objeto, Instance, o ' +
        'arreglo que contenga los mencionados tipos de datos', function() {
       let prop = new Instance('Property', {id:1})
       expect(()=> prop.set('category', null       )).to.throw(Error)
@@ -72,11 +83,6 @@ describe('Clase "Instance"', function() {
       expect(prop1).to.be.an.instanceOf(Instance).and.have.property('name').that.equal('prop1')
       expect(prop2).to.be.an.instanceOf(Instance).and.have.property('name').that.equal('prop2')
       expect(prop3).to.be.an('number').and.to.be.equal(3)
-    })
-    it('Debe establecer los valores por defecto de la instancia', function() {
-      let user = new Instance('User', {})
-      expect(user.username).to.be.equal('unnamed')
-      expect(user.password).to.be.equal('secret' )
     })
     it('Debe reestablecer los valores de una instancia', function() {
       let user = new Instance('User', {
