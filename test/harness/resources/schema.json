@@ -8,20 +8,22 @@
           "notNull":{
             "arg":true,
             "msg":"",
-            "type":"error"
+            "kind":"error"
           }
         }
       },
       "name":{
         "type":"STRING(255)",
         "validate":{
+          "matches": {
+            "arg": "^system",
+            "msg": "Property name could not start with \"system\"",
+            "kind": "error"
+          },
           "len":{
-            "arg":[
-              0,
-              255
-            ],
+            "arg":[ 0,255 ],
             "msg":"",
-            "type":"error"
+            "kind":"error"
           }
         }
       },
@@ -30,12 +32,9 @@
         "allowNull": true,
         "validate":{
           "len":{
-            "arg":[
-              0,
-              1024
-            ],
+            "arg":[ 0,1024 ],
             "msg":"",
-            "type":"error"
+            "kind":"error"
           }
         }
       }
@@ -45,7 +44,7 @@
       "category":{
         "model":"PropertyCategory",
         "allowNull": true,
-        "type":"BelongsTo"
+        "kind":"BelongsTo"
       }
     }
   },
@@ -58,7 +57,7 @@
           "notNull":{
             "arg":true,
             "msg":"",
-            "type":"error"
+            "kind":"error"
           }
         }
       },
@@ -66,12 +65,9 @@
         "type":"STRING(255)",
         "validate":{
           "len":{
-            "arg":[
-              0,
-              255
-            ],
-            "msg":"",
-            "type":"error"
+            "arg":[ 2,255 ],
+            "msg":"Category name should be longer than 1 character",
+            "kind":"error"
           }
         }
       }
@@ -81,12 +77,12 @@
       "parent": {
         "model":"PropertyCategory",
         "allowNull": true,
-        "type":"BelongsTo"
+        "kind":"BelongsTo"
       },
       "properties":{
         "model":"Property",
         "allowNull": true,
-        "type":"HasMany"
+        "kind":"HasMany"
       }
     }
   },
@@ -101,16 +97,13 @@
         }
       },
       "password":{
-        "type":"STRING(255)",
+        "type":"STRING(20)",
         "defaultValue":"secret",
         "validate":{
           "len":{
-            "arg":[
-              0,
-              255
-            ],
-            "msg":"",
-            "type":"error"
+            "arg":[ 8, 20 ],
+            "msg":"Password must be between 8 and 20 characters long",
+            "kind":"error"
           }
         }
       },
@@ -119,12 +112,9 @@
         "defaultValue":"unnamed",
         "validate":{
           "len":{
-            "arg":[
-              0,
-              255
-            ],
+            "arg":[ 6, 255 ],
             "msg":"",
-            "type":"error"
+            "kind":"error"
           }
         }
       },
@@ -135,15 +125,12 @@
           "isEmail":{
             "arg":true,
             "msg":"Invalid email",
-            "type":"error"
+            "kind":"error"
           },
           "len":{
-            "arg":[
-              8,
-              255
-            ],
+            "arg":[ 8, 255 ],
             "msg":"Email too short",
-            "type":"error"
+            "kind":"error"
           }
         }
       },
@@ -166,12 +153,12 @@
     "associations":{
       "profile": {
         "model":"Profile",
-        "type":"BelongsTo",
+        "kind":"BelongsTo",
         "allowNull": false
       },
       "properties":{
         "model":"Property",
-        "type":"BelongsToMany",
+        "kind":"BelongsToMany",
         "allowNull": true,
         "through":"UserProperty"
       }
@@ -187,7 +174,7 @@
           "notNull":{
             "arg":true,
             "msg":"",
-            "type":"error"
+            "kind":"error"
           }
         }
       },
@@ -197,7 +184,7 @@
           "notNull":{
             "arg":true,
             "msg":"",
-            "type":"error"
+            "kind":"error"
           }
         }
       },
@@ -207,7 +194,7 @@
           "notNull":{
             "arg":true,
             "msg":"",
-            "type":"error"
+            "kind":"error"
           }
         }
       },
@@ -217,15 +204,12 @@
           "notNull":{
             "arg":true,
             "msg":"",
-            "type":"error"
+            "kind":"error"
           },
           "len":{
-            "arg":[
-              0,
-              255
-            ],
+            "arg":[ 0, 255 ],
             "msg":"",
-            "type":"error"
+            "kind":"error"
           }
         }
       },
@@ -248,7 +232,7 @@
           "notNull":{
             "arg":true,
             "msg":"",
-            "type":"error"
+            "kind":"error"
           }
         }
       },
@@ -256,9 +240,9 @@
         "type":"STRING(255)",
         "validate":{
           "len":{
-            "arg":[3, 100],
+            "arg":[ 3, 100 ],
             "msg":"Name must be longer than 3 characters",
-            "type":"error"
+            "kind":"error"
           }
         }
       }
@@ -268,7 +252,7 @@
       "users":{
         "model":"User",
         "allowNull": true,
-        "type":"HasMany"
+        "kind":"HasMany"
       }
     }
   }

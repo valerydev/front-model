@@ -46,7 +46,7 @@ describe('Clase InstanceSet', function(){
     it('Debe solo aceptar objetos planos, Instances, y enteros mayores que cero', function() {
       let testSet = new InstanceSet(null, {
         model: 'Property',
-        type: 'BelongsToMany',
+        kind: 'BelongsToMany',
         through: 'UserProperty'
       })
       testSet.add(undefined)
@@ -65,7 +65,7 @@ describe('Clase InstanceSet', function(){
     it('Debe convertir objetos plano en instancias', function() {
       let testSet = new InstanceSet(null, {
         model: 'Property',
-        type: 'BelongsToMany',
+        kind: 'BelongsToMany',
         through: 'UserProperty'
       })
       testSet.add({ id: 1 })
@@ -74,7 +74,7 @@ describe('Clase InstanceSet', function(){
     it('Debe añadir elementos sin permitir duplicados', function(){
       let testSet = new InstanceSet(null, {
         model: 'Property',
-        type: 'BelongsToMany',
+        kind: 'BelongsToMany',
         through: 'UserProperty'
       })
       testSet.addEach([
@@ -91,7 +91,7 @@ describe('Clase InstanceSet', function(){
     it('Debe reconocer la junta en una relacion M:N', function(){
       let testSet = new InstanceSet(null, {
         model: 'Property',
-        type: 'BelongsToMany',
+        kind: 'BelongsToMany',
         through: 'UserProperty'
       })
       testSet.addEach([
@@ -118,7 +118,7 @@ describe('Clase InstanceSet', function(){
         UserProperty: {id: 1, value: 0}}
       ], {
         model: 'Property',
-        type: 'BelongsToMany',
+        kind: 'BelongsToMany',
         through: 'UserProperty'
       })
 
@@ -139,7 +139,7 @@ describe('Clase InstanceSet', function(){
     it('Debe reemplazar el elemento existente', function(){
       let testSet = new InstanceSet([1, { id:2 }], {
         model: 'Property',
-        type: 'BelongsToMany',
+        kind: 'BelongsToMany',
         through: 'UserProperty'
       })
 
@@ -156,7 +156,7 @@ describe('Clase InstanceSet', function(){
     beforeEach(function(){
       testSet = new InstanceSet(null, {
         model: 'Property',
-        type: 'BelongsToMany',
+        kind: 'BelongsToMany',
         through: 'UserProperty'
       })
       testSet = testSet.addEach([
@@ -180,7 +180,7 @@ describe('Clase InstanceSet', function(){
     it('Deben retornar siempre un InstanceSet', function(){
       let assocDescriptor = {
         model: 'Property',
-        type: 'BelongsToMany',
+        kind: 'BelongsToMany',
         through: 'UserProperty'
       }
       testSet1 = new InstanceSet([1,2,3], assocDescriptor)
@@ -196,9 +196,9 @@ describe('Clase InstanceSet', function(){
   })
   describe('Contertir a arreglo', function() {
     it('Debe convertir a arreglo', function() {
-      let testSet = new InstanceSet([1,2,3],{
+      let testSet = new InstanceSet([1,2,3], {
         model: 'Property',
-        type: 'BelongsToMany',
+        kind: 'BelongsToMany',
         through: 'UserProperty'
       })
 

@@ -15,6 +15,7 @@
   "dependencies": {
     "collections": "5.0.6",
     "lodash": "^4.17.4",
+    "traverse": "^0.6.6",
     "validator": "^5.2.0"
   },
   "devDependencies": {
