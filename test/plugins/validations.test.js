@@ -19,7 +19,7 @@ let ModelRegistry = models.getClass()
 let { Instance, InstanceSet, Model } = ModelRegistry
 
 
-describe.only('Validation Plugin', function() {
+describe('Validation Plugin', function() {
   //it('suck', function(){
   //  let t = require('traverse')
   //  let obj = t({a:{b:{c:1}}, d:[2]}).reduce(function(memo, x){
@@ -48,7 +48,7 @@ describe.only('Validation Plugin', function() {
         }
       }]
     })
-    let validation = user.validate('properties[0]')
+    let validation = user.validate()
     for(let path in validation) console.log(path)
     //console.log(JSON.stringify(validation,null,2))
   })

@@ -223,7 +223,6 @@ describe('Clase "Instance"', function() {
       let modified = user.modified()
       expect(modified).to.have.property('username').to.be.equal(user.username)
       expect(modified).not.to.have.property('password')
-
     })
     it('Debe considerar atributos ficticios (no definidos en el modelo), menos _oid', function(){
       let prop = new Instance('Property', {})
@@ -361,6 +360,6 @@ describe('Clase "Instance"', function() {
   })
   it('Debe considerarse "nueva" una instancia cuyo valor de clave primaria este indefinido', function() {
     let user = new Instance('User', {username: 'user1'})
-    expect(user.isNewRecord()).to.be.True
+    expect(user.isNewRecord()).to.be.true
   })
 })

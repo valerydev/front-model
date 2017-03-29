@@ -33,7 +33,7 @@ describe('Clase InstanceSet', function(){
     })
     it('Debe considerar iguales un entero y un objeto con pk de igual valor', function(){
       expect(InstanceSet.contentEquals(1, {id:1})).to.be.true
-      expect(InstanceSet.contentEquals({id:1}, 2)).not.to.be.true
+      expect(InstanceSet.contentEquals({id:1}, 2)).to.be.false
     })
     it('Debe comparar por pk y recurrir a comparar oids si algun objeto no define pk', function(){
       expect(InstanceSet.contentEquals({}, {})).not.to.be.true
@@ -111,12 +111,35 @@ describe('Clase InstanceSet', function(){
         .to.be.an.instanceOf(Instance)
         .and.to.have.deep.property('UserProperty.value').that.is.equal( 2 )
     })
+    it('Debe reemplazar/actualizar un elemento existente sin modificar su posicion', function() {
+      let testSet = new InstanceSet(
+        [1, 2],
+        {
+          model: 'Property',
+          kind: 'BelongsToMany',
+          through: 'UserProperty'
+        }
+      )
+      testSet.add({ id: 1, name: 'prop1' })
+      expect(testSet.get(0)).to.have.property('name').that.is.equal('prop1')
+
+      testSet.add({ id: 1, name: 'updatedProp1' })
+      expect(testSet.get(0)).to.have.property('name').that.is.equal('updatedProp1')
+
+      testSet.add(1)
+      expect(testSet.get(0)).to.be.a('number').that.is.equal(1)
+
+    })
     it('Debe actualizar una instancia existente sin modificar su oid', function(){
       let testSet = new InstanceSet([{
         id: 1,
         name: 'prop1',
-        UserProperty: {id: 1, value: 0}}
-      ], {
+        UserProperty: {
+          id: 1,
+          value: 0
+        }
+      }],
+      {
         model: 'Property',
         kind: 'BelongsToMany',
         through: 'UserProperty'
@@ -183,8 +206,8 @@ describe('Clase InstanceSet', function(){
         kind: 'BelongsToMany',
         through: 'UserProperty'
       }
-      testSet1 = new InstanceSet([1,2,3], assocDescriptor)
-      testSet2 = new InstanceSet([3,4,5], assocDescriptor)
+      let testSet1 = new InstanceSet([1,2,3], assocDescriptor)
+      let testSet2 = new InstanceSet([3,4,5], assocDescriptor)
 
       expect(testSet1.symmetricDifference(testSet2)).to.be.instanceOf(InstanceSet)
       expect(testSet1.union(testSet2)).to.be.instanceOf(InstanceSet)
