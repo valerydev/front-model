@@ -185,6 +185,34 @@ describe('Clase "Instance"', function() {
       let user = new Instance('User', rawUser)
       expect(user.get('username')).to.be.equal(rawUser.username)
     })
+    it('Debe permitir leer una propiedad profunda de la instancia', function(){
+      let rawUser = {
+        password: '123',
+        username: 'user1',
+        xxx: 'xxx',
+        properties: [{
+          UserProperty: { //Modelo de junta de la asociacion M:N entre usuario y propiedad
+            userId: 1,
+            propertyId: 2,
+            value: 'val2'
+          },
+          category: {
+            name: 'cat1'
+          }
+        }]
+      }
+      let user = new Instance('User', rawUser)
+
+      expect(user.get('properties[0]')).to.be.instanceOf(Instance)
+      expect(user.get('properties[0].UserProperty.value')).to.be.equal('val2')
+      expect(user.get('properties[0].category.name')).to.be.equal('cat1')
+
+
+      // Alternatively dot syntax to access array elements
+      expect(user.get('properties.0')).to.be.instanceOf(Instance)
+      expect(user.get('properties.0.UserProperty.value')).to.be.equal('val2')
+      expect(user.get('properties.0.category.name')).to.be.equal('cat1')
+    })
     it('Debe generar un objeto plano de la instancia', function() {
       let rawUser = {
         password: '123',

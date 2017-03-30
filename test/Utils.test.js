@@ -17,49 +17,35 @@ let schema = require('./harness/resources/schema.json')
 let models = require('../index')(schema);
 let ModelRegistry = models.getClass()
 let { Instance, InstanceSet, Model, Utils } = ModelRegistry
-let $request = Utils.$request
-let xhr, requests
 
-before(()=> {
-  xhr = global.XMLHttpRequest = sinon.useFakeXMLHttpRequest()
-  xhr.onCreate = function (req) { requests.push(req) }
-})
+describe('$getPropertyDeep', function() {
+  it('Debe extraer la propiedad profunda especificada', function(){
+    expect( Utils.$getPropertyDeep(0, 'a.b.c') ).not.to.be.ok
+    expect( Utils.$getPropertyDeep({a:{b:{c:0}}}, 'a.b.c') ).to.equal(0)
 
-beforeEach(function () { requests = [] })
-
-describe('Protocolo REST de operaciones CRUD', function() {
-  describe('GET', function() {
-    it('Debe leer todos', async function() {
-      // let users = [{
-      //   "id": 1,
-      //   "password": "123",
-      //   "username": "user1",
-      //   "email": "user1@cvxven.com"
-      // },{
-      //   "id": 2,
-      //   "password": "456",
-      //   "username": "user2",
-      //   "email": "user2@cvxven.com"
-      // }]
-      //
-      // let results = models.User.findAll()
-      // requests[0].respond(200, {}, JSON.stringify(users))
-      // results = await results
-      // expect(results).to.be.ok
-      // expect(results).to.all.be.instanceOf(models.Instance)
+    let user = models.User.build({
+      id: 1,
+      properties: [{
+        id: 1,
+        name: 'prop1',
+        UserProperty: {
+          userId: 1,
+          propertyId: 2,
+          value: 0
+        }
+      }]
     })
-    it('Debe leer un registro especifico')
-  })
-  describe('POST', function() {
-    it('Debe crear un registro')
-    it('Debe crear varios registros')
-  })
-  describe('PUT', function() {
-    it('Debe actualizar un registro especifico')
-    it('Debe actualizar varios registros')
-  })
-  describe('DELETE', function() {
-    it('Debe eliminar un registro')
-    it('Debe eliminar varios registros')
+    expect( Utils.$getPropertyDeep(user, 'properties') ).to.be.an.instanceOf(InstanceSet)
+    expect( Utils.$getPropertyDeep(user, 'properties[0]') ).to.be.an.instanceOf(Instance)
+    expect( Utils.$getPropertyDeep(user, 'properties[0].name') ).to.be.equal('prop1')
+    expect( Utils.$getPropertyDeep(user, 'properties[0].UserProperty.value') ).to.be.equal(0)
+    expect( Utils.$getPropertyDeep(user.properties, '[0].UserProperty.value') ).to.be.equal(0)
+
+    expect( Utils.$getPropertyDeep(user, 'properties') ).to.be.an.instanceOf(InstanceSet)
+    expect( Utils.$getPropertyDeep(user, 'properties.0') ).to.be.an.instanceOf(Instance)
+    expect( Utils.$getPropertyDeep(user, 'properties.0.name') ).to.be.equal('prop1')
+    expect( Utils.$getPropertyDeep(user, 'properties.0.UserProperty.value') ).to.be.equal(0)
+    expect( Utils.$getPropertyDeep(user.properties, '0.UserProperty.value') ).to.be.equal(0)
+
   })
 })
