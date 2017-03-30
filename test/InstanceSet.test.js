@@ -104,11 +104,9 @@ describe('Clase InstanceSet', function(){
       let prop1 = testSet.first({ name: 'prop1' })
       let prop2 = testSet.first({ name: 'prop2' })
 
-      expect(prop1).to.be.ok
-        .to.be.an.instanceOf(Instance)
+      expect(prop1).to.be.an.instanceOf(Instance)
         .and.to.have.deep.property('UserProperty.value').that.is.equal( 1 )
-      expect(prop2).to.be.ok
-        .to.be.an.instanceOf(Instance)
+      expect(prop2).to.be.an.instanceOf(Instance)
         .and.to.have.deep.property('UserProperty.value').that.is.equal( 2 )
     })
     it('Debe reemplazar/actualizar un elemento existente sin modificar su posicion', function() {
