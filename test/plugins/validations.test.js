@@ -57,4 +57,6 @@ describe('Validation Plugin', function() {
   })
   it('Debe validar tambien instancia de junta en asociaciones a muchos')
   it('Debe agregar dos o mas errores de validacion para un solo attributo/asociacion')
+  it('Debe permitir obtener los errores en formato plano', function() {
+  })
 })
