@@ -14,7 +14,7 @@ chai.use(chaiThings)
 chai.use(chaiSubset)
 
 let schema = require('../harness/resources/schema.json')
-let models = require('../../')(schema);
+let models = require('../../index')(schema);
 let ModelRegistry = models.getClass()
 let { Instance, InstanceSet, Model } = ModelRegistry
 
