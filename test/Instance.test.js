@@ -328,8 +328,8 @@ describe('Clase "Instance"', function() {
           ]
         })
         let prop1 = user.properties.add({ id:1, name: 'updatedProp1' })
-        let prop2 = user.properties.where({ name: 'prop3' })
-        prop2.name = 'updatedProp3'
+        let prop3 = user.properties.first({ name: 'prop3' })
+        prop3.name = 'updatedProp3'
 
         expect(user.modified()).to.have.property('properties')
           .that.is.an('array').with.lengthOf(2)

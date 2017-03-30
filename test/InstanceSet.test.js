@@ -101,8 +101,8 @@ describe('Clase InstanceSet', function(){
         )
       ])
 
-      let prop1 = testSet.where({ name: 'prop1' })
-      let prop2 = testSet.where({ name: 'prop2' })
+      let prop1 = testSet.first({ name: 'prop1' })
+      let prop2 = testSet.first({ name: 'prop2' })
 
       expect(prop1).to.be.ok
         .to.be.an.instanceOf(Instance)
@@ -183,8 +183,9 @@ describe('Clase InstanceSet', function(){
         through: 'UserProperty'
       })
       testSet = testSet.addEach([
-        1, //Entero
-        new Instance('Property', { id:2, name: 'prop2' }) //Instancia
+        1,
+        new Instance('Property', { id:2, name: 'prop2', value: 0, category: { name: 'all' } }),
+        new Instance('Property', { id:3, name: 'prop3', value: 0, category: { name: 'all' } })
       ])
     })
 
@@ -193,10 +194,15 @@ describe('Clase InstanceSet', function(){
       expect( testSet.find({id:2}) ).to.be.ok.and.to.be.an.instanceOf(Instance)
         .that.have.property('name').that.equal('prop2')
     })
-    it('Debe buscar una instancia que se corresponda con los valores de un objeto', function(){
+    it('Debe buscar instancias que se correspondan con los valores de un objeto', function(){
       expect( testSet.where({name: 'prop2'}) )
-        .to.be.ok.and.to.be.an.instanceOf(Instance)
-        .that.have.property('name').that.equal('prop2')
+        .to.be.an('array').with.lengthOf(1).with.property('0').that.is.an.instanceOf(Instance)
+      expect( testSet.where({category: {name: 'all'}}) )
+        .to.be.an('array').with.lengthOf(2).with.all.instanceOf(Instance)
+    })
+    it('Debe buscar la primera instancia que consiga que cumpla con los valores de un objeto', function(){
+      expect( testSet.first({ category: { name: 'all' }}) )
+        .to.be.ok.and.to.be.an.instanceOf(Instance).and.have.property('name').that.equal('prop2')
     })
   })
   describe('Operaciones Booleanas', function() {

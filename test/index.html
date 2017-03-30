@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        window.schema = {
+            "Property":{
+                "attributes":{
+                    "id":{
+                        "type":"BIGINT",
+                        "primaryKey":true,
+                        "validate":{
+                            "notNull":{
+                                "arg":true,
+                                "msg":"",
+                                "kind":"error"
+                            }
+                        }
+                    },
+                    "name":{
+                        "type":"STRING(255)",
+                        "validate":{
+                            "matches": {
+                                "arg": "^system",
+                                "msg": "Property name could not start with \"system\"",
+                                "kind": "error"
+                            },
+                            "len":{
+                                "arg":[ 0,255 ],
+                                "msg":"",
+                                "kind":"error"
+                            }
+                        }
+                    },
+                    "defaultValue":{
+                        "type":"STRING(1024)",
+                        "allowNull": true,
+                        "validate":{
+                            "len":{
+                                "arg":[ 0,1024 ],
+                                "msg":"",
+                                "kind":"error"
+                            }
+                        }
+                    }
+                },
+                "pk":"id",
+                "associations":{
+                    "category":{
+                        "model":"PropertyCategory",
+                        "allowNull": true,
+                        "kind":"BelongsTo"
+                    }
+                }
+            },
+            "PropertyCategory":{
+                "attributes":{
+                    "id":{
+                        "type":"BIGINT",
+                        "primaryKey":true,
+                        "validate":{
+                            "notNull":{
+                                "arg":true,
+                                "msg":"",
+                                "kind":"error"
+                            }
+                        }
+                    },
+                    "name":{
+                        "type":"STRING(255)",
+                        "validate":{
+                            "len":{
+                                "arg":[ 2,255 ],
+                                "msg":"Category name should be longer than 1 character",
+                                "kind":"error"
+                            }
+                        }
+                    }
+                },
+                "pk":"id",
+                "associations":{
+                    "parent": {
+                        "model":"PropertyCategory",
+                        "allowNull": true,
+                        "kind":"BelongsTo"
+                    },
+                    "properties":{
+                        "model":"Property",
+                        "allowNull": true,
+                        "kind":"HasMany"
+                    }
+                }
+            },
+            "User":{
+                "attributes":{
+                    "id":{
+                        "type":"BIGINT",
+                        "primaryKey":true,
+                        "defaultValue": 1,
+                        "validate":{
+
+                        }
+                    },
+                    "password":{
+                        "type":"STRING(20)",
+                        "defaultValue":"secret",
+                        "validate":{
+                            "len":{
+                                "arg":[ 8, 20 ],
+                                "msg":"Password must be between 8 and 20 characters long",
+                                "kind":"error"
+                            }
+                        }
+                    },
+                    "username":{
+                        "type":"STRING(255)",
+                        "defaultValue":"unnamed",
+                        "validate":{
+                            "len":{
+                                "arg":[ 6, 255 ],
+                                "msg":"",
+                                "kind":"error"
+                            }
+                        }
+                    },
+                    "email":{
+                        "type":"STRING(255)",
+                        "allowNull": true,
+                        "validate":{
+                            "isEmail":{
+                                "arg":true,
+                                "msg":"Invalid email",
+                                "kind":"error"
+                            },
+                            "len":{
+                                "arg":[ 8, 255 ],
+                                "msg":"Email too short",
+                                "kind":"error"
+                            }
+                        }
+                    },
+                    "createdAt":{
+                        "type":"DATE",
+                        "allowNull": true,
+                        "validate":{
+
+                        }
+                    },
+                    "code": {
+                        "type": "INTEGER",
+                        "allowNull": true,
+                        "validate": {
+
+                        }
+                    }
+                },
+                "pk":"id",
+                "associations":{
+                    "profile": {
+                        "model":"Profile",
+                        "kind":"BelongsTo",
+                        "allowNull": false
+                    },
+                    "properties":{
+                        "model":"Property",
+                        "kind":"BelongsToMany",
+                        "allowNull": true,
+                        "through":"UserProperty"
+                    }
+                },
+                "endpoint":"/users"
+            },
+            "UserProperty":{
+                "attributes":{
+                    "id":{
+                        "type":"BIGINT",
+                        "primaryKey":true,
+                        "validate":{
+                            "notNull":{
+                                "arg":true,
+                                "msg":"",
+                                "kind":"error"
+                            }
+                        }
+                    },
+                    "userId":{
+                        "type":"BIGINT",
+                        "validate":{
+                            "notNull":{
+                                "arg":true,
+                                "msg":"",
+                                "kind":"error"
+                            }
+                        }
+                    },
+                    "propertyId":{
+                        "type":"BIGINT",
+                        "validate":{
+                            "notNull":{
+                                "arg":true,
+                                "msg":"",
+                                "kind":"error"
+                            }
+                        }
+                    },
+                    "value":{
+                        "type":"STRING(255)",
+                        "validate":{
+                            "notNull":{
+                                "arg":true,
+                                "msg":"",
+                                "kind":"error"
+                            },
+                            "len":{
+                                "arg":[ 0, 255 ],
+                                "msg":"",
+                                "kind":"error"
+                            }
+                        }
+                    },
+                    "updatedAt":{
+                        "type":"DATE()",
+                        "validate":{
+
+                        }
+                    }
+                },
+                "pk":"id"
+            },
+            "Profile":{
+                "attributes":{
+                    "id":{
+                        "type":"BIGINT",
+                        "primaryKey":true,
+                        "allowNull": false,
+                        "validate":{
+                            "notNull":{
+                                "arg":true,
+                                "msg":"",
+                                "kind":"error"
+                            }
+                        }
+                    },
+                    "name":{
+                        "type":"STRING(255)",
+                        "validate":{
+                            "len":{
+                                "arg":[ 3, 100 ],
+                                "msg":"Name must be longer than 3 characters",
+                                "kind":"error"
+                            }
+                        }
+                    }
+                },
+                "pk":"id",
+                "associations":{
+                    "users":{
+                        "model":"User",
+                        "allowNull": true,
+                        "kind":"HasMany"
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="./model.js"></script>
+</head>
+<body>
+
+</body>
+</html>
