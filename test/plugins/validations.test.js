@@ -55,5 +55,6 @@ describe('Validation Plugin', function() {
   it('Debe agregar error de validacion si falta una asociacion requerida', function() {
     let user = models.Property.build({})
   })
+  it('Debe validar tambien instancia de junta en asociaciones a muchos')
   it('Debe agregar dos o mas errores de validacion para un solo attributo/asociacion')
 })
