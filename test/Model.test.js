@@ -20,13 +20,16 @@ let { Instance, InstanceSet, Model } = ModelRegistry
 
 describe('Clase "Model"', function() {
   describe('Metodo "defaults"', function() {
+    it('Debe retornar una instancia', function() {
+      expect( models.User.defaults() ).to.be.an.instanceOf(Instance)
+    })
     it('No debe generar valor por defecto para el pk, aunque lo defina el modelo', function() {
       let defaults = models.User.defaults()
       expect(defaults).not.to.have.property('id')
     })
     it('Debe permitir obtener solo valores por defecto en atributos requeridos', function() {
       let defaults = models.User.defaults({ strict: true, deep: false })
-      expect(defaults).to.eql({
+      expect(defaults.get()).to.eql({
         username: 'unnamed',
         password: 'secret'
       })
