@@ -50,9 +50,7 @@ var config = {
     __dirname: true,
     __filename: true,
     global: true
-  },
-
-  devtool: 'inline-source-map'
+  }
 };
 
 module.exports = config;
