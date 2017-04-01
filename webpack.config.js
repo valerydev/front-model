@@ -6,7 +6,7 @@ var isProd = process.env.stage == 'prod';
 let entrypoint = isTest ? './test/index.js' : './index.js'
 
 var config = {
-  entry: ['babel-polyfill', entrypoint],
+  entry: [entrypoint],
   output: {
     path: __dirname + "/dist",
     publicPath: "",
