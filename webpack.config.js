@@ -10,7 +10,9 @@ var config = {
   output: {
     path: __dirname + "/dist",
     publicPath: "",
-    filename: "model.js"
+    filename: "model.js",
+    library: "models",
+    libraryTarget: "umd"
   },
   target: target,
   module: {
