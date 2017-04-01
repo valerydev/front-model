@@ -1,5 +1,3 @@
-// Karma configuration
-// Generated on Fri Mar 03 2017 18:08:43 GMT-0400 (VET)
 let webpackConfig = require('./webpack.config.js')
 webpackConfig.entry = undefined
 
@@ -9,8 +7,8 @@ module.exports = function(config) {
     browsers: ['PhantomJS', 'Chrome', 'Firefox'],
     frameworks: ['mocha','chai'],
     files: [
-      'node_modules/phantomjs-polyfill/bind-polyfill.js',
       'node_modules/babel-polyfill/dist/polyfill.js',
+      'node_modules/phantomjs-polyfill/bind-polyfill.js',
       'test/index.js'
     ],
     exclude: [
