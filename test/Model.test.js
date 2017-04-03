@@ -20,8 +20,9 @@ let { Instance, InstanceSet, Model } = ModelRegistry
 
 describe('Clase "Model"', function() {
   describe('Metodo "defaults"', function() {
-    it('Debe retornar una instancia', function() {
-      expect( models.User.defaults() ).to.be.an.instanceOf(Instance)
+    it('Debe seleccionar entre instancia u objeto plano como valor de retorno', function() {
+      expect( models.User.defaults({ plain: false }) ).to.be.an.instanceOf(Instance)
+      expect( _.isPlainObject(models.User.defaults({ plain: true }) )).to.be.true
     })
     it('No debe generar valor por defecto para el pk, aunque lo defina el modelo', function() {
       let defaults = models.User.defaults()
@@ -45,13 +46,13 @@ describe('Clase "Model"', function() {
       expect(defaults).to.have.deep.property('category.name').that.equal('')
     })
     it('Debe permitir generar valores por defecto solo en asociaciones requeridas', function() {
-      let defaults = models.Property.defaults({ strict: false, deep: true })
+      let defaults = models.Property.defaults({ strict: false, deep: true, plain: true })
       expect(defaults).to.have.property('category')
 
-      defaults = models.Property.defaults({ strict: true, deep: true })
+      defaults = models.Property.defaults({ strict: true, deep: true, plain: true })
       expect(defaults).not.to.have.property('category')
 
-      defaults = models.User.defaults({ strict: true, deep: true })
+      defaults = models.User.defaults({ strict: true, deep: true, plain: true })
       expect(defaults).to.have.property('profile')
     })
     it('Debe retornar un objeto plano')
