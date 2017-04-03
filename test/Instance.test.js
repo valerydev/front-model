@@ -29,6 +29,10 @@ before(()=> {
 beforeEach(()=> { requests = [] })
 
 describe('Clase "Instance"', function() {
+  it('Debe considerarse "nueva" una instancia cuyo valor de clave primaria este indefinido', function() {
+    let user = new Instance('User', {username: 'user1'})
+    expect(user.isNewRecord()).to.be.true
+  })
   describe('Creacion', function() {
     it('Debe generarse un oid para la instancia de no especificar uno', function(){
       expect(new Instance('Property', {_oid: 1})).to.have.property('_oid').that.equal(1)
