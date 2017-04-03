@@ -17,6 +17,16 @@ let schema = require('./harness/resources/schema.json')
 let models = require('../index')(schema)
 let ModelRegistry = models.getClass()
 let { Instance, InstanceSet, Model } = ModelRegistry
+let xhr, requests
+
+before(()=> {
+  if(process.env.target === 'node') {
+    xhr = global.XMLHttpRequest = sinon.useFakeXMLHttpRequest()
+    xhr.onCreate = function (req) { requests.push(req) }
+  }
+})
+
+beforeEach(()=> { requests = [] })
 
 describe('Clase "Instance"', function() {
   describe('Creacion', function() {

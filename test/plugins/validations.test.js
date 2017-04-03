@@ -20,18 +20,6 @@ let { Instance, InstanceSet, Model } = ModelRegistry
 
 
 describe('Validation Plugin', function() {
-  //it('suck', function(){
-  //  let t = require('traverse')
-  //  let obj = t({a:{b:{c:1}}, d:[2]}).reduce(function(memo, x){
-  //    if( this.isLeaf ) {
-  //      memo[this.path.join('.').replace(/\.\d+\.(msg|kind)$/,'').replace(/(?:\.?)(\d+)(\.?)/g, function(match,$1,$2) {
-  //        return '[' + $1 + ']' + $2||''
-  //      })] = x
-  //    }
-  //    return memo
-  //  },{})
-  //  console.log(obj)
-  //})
   it('Debe generar error de validacion si falta algun atributo requerido', function(){
     let user = models.User.build({
       id: 1,
@@ -48,8 +36,8 @@ describe('Validation Plugin', function() {
         }
       }]
     })
-    let validation = user.validate()
-    for(let path in validation) console.log(path)
+    let validation = user.validate({plain: true})
+    console.log(validation)
     //console.log(JSON.stringify(validation,null,2))
   })
   it('Debe agregar error de validacion si falta una asociacion requerida', function() {
