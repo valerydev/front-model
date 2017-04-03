@@ -241,12 +241,12 @@ describe('Clase "Instance"', function() {
       }
       let user = new Instance('User', rawUser)
 
-      //Por defecto toma en cuenta solo los atributos, ignora las asociaciones
-      expect( user.get() ).to.containSubset( _.omit(rawUser, 'properties') )
+      //Por defecto genera todos los atributos (incluso los no definidos en el modelo) y asociaciones
+      expect( user.get() ).to.eql( rawUser )
       //Si strict = true solo toma en cuenta los atributos definidos en el modelo, ignora los añadidos
-      expect( user.get({strict: true}) ).to.containSubset( _.omit(rawUser, 'xxx', 'properties') )
+      expect( user.get({strict: true}) ).to.eql( _.omit(rawUser, 'xxx') )
       //Si deep = true procesa recursivamente las asociaciones
-      expect( user.get({deep: true}) ).to.containSubset(rawUser)
+      expect( user.get({strict: false, deep: true}) ).to.eql(rawUser)
     })
     it('Debe aceptar entero como asociacion (para soportar operacion CRUD "asociar")', function() {
       let rawUser = { properties: [1, 2, 3] }
