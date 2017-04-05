@@ -54,12 +54,10 @@ describe('Clase "Instance"', function() {
     it('Debe generar error al establecer una asociacion con un valor entero diferente de cero, objeto, Instance, o ' +
        'arreglo que contenga los mencionados tipos de datos', function() {
       let prop = new Instance('Property', {id:1})
-      expect(()=> prop.set('category', null       )).to.throw(Error)
       expect(()=> prop.set('category', undefined  )).to.throw(Error)
       expect(()=> prop.set('category', 'string'   )).to.throw(Error)
       expect(()=> prop.set('category', 0          )).to.throw(Error)
       expect(()=> prop.set('category', ()=>{}     )).to.throw(Error)
-      expect(()=> prop.set({ category: null      })).to.throw(Error)
       expect(()=> prop.set({ category: undefined })).to.throw(Error)
       expect(()=> prop.set({ category: ()=>{}    })).to.throw(Error)
       expect(()=> prop.set({ category: ()=>{}    })).to.throw(Error)
