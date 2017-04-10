@@ -12,6 +12,10 @@
           }
         }
       },
+      "categoryId":{
+        "type":"BIGINT",
+        "foreignKey":true
+      },
       "name":{
         "type":"STRING(255)",
         "validate":{
@@ -43,6 +47,7 @@
     "associations":{
       "category":{
         "model":"PropertyCategory",
+        "foreignKey": "categoryId",
         "allowNull": true,
         "kind":"BelongsTo"
       }
@@ -61,6 +66,10 @@
           }
         }
       },
+      "parentId":{
+        "type":"BIGINT",
+        "foreignKey":true
+      },
       "name":{
         "type":"STRING(255)",
         "validate":{
@@ -76,11 +85,13 @@
     "associations":{
       "parent": {
         "model":"PropertyCategory",
+        "foreignKey": "parentId",
         "allowNull": true,
         "kind":"BelongsTo"
       },
       "properties":{
         "model":"Property",
+        "foreignKey": "categoryId",
         "allowNull": true,
         "kind":"HasMany"
       }
@@ -94,6 +105,17 @@
         "defaultValue": 1,
         "validate":{
 
+        }
+      },
+      "profileId":{
+        "type":"BIGINT",
+        "foreignKey":true,
+        "validate":{
+          "notNull":{
+            "arg":true,
+            "msg":"",
+            "kind":"error"
+          }
         }
       },
       "password":{
@@ -149,15 +171,18 @@
         }
       }
     },
-    "pk":"id",
+    "pk": "id",
     "associations":{
       "profile": {
-        "model":"Profile",
+        "model": "Profile",
+        "foreignKey": "profileId",
         "kind":"BelongsTo",
         "allowNull": false
       },
       "properties":{
         "model":"Property",
+        "foreignKey": "userId",
+        "otherKey"  : "propertyId",
         "kind":"BelongsToMany",
         "allowNull": true,
         "through":"UserProperty"
@@ -180,6 +205,7 @@
       },
       "userId":{
         "type":"BIGINT",
+        "foreignKey":true,
         "validate":{
           "notNull":{
             "arg":true,
@@ -190,6 +216,7 @@
       },
       "propertyId":{
         "type":"BIGINT",
+        "foreignKey":true,
         "validate":{
           "notNull":{
             "arg":true,
