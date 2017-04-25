@@ -46,19 +46,19 @@ describe('Clase "Instance"', function() {
 
       //but if values is an empty plain object do not set default values
       user = new Instance('User', {})
-      expect(user).not.to.have.property('username')
-      expect(user).not.to.have.property('password')
+      expect(user.username).to.be.undefined
+      expect(user.password).to.be.undefined
     })
   })
   describe('Metodo "set"', function() {
     it('Debe generar error al establecer una asociacion con un valor entero diferente de cero, objeto, Instance, o ' +
        'arreglo que contenga los mencionados tipos de datos', function() {
       let prop = new Instance('Property', {id:1})
-      expect(()=> prop.set('category', undefined  )).to.throw(Error)
+      // expect(()=> prop.set('category', undefined  )).to.throw(Error)
       expect(()=> prop.set('category', 'string'   )).to.throw(Error)
       expect(()=> prop.set('category', 0          )).to.throw(Error)
       expect(()=> prop.set('category', ()=>{}     )).to.throw(Error)
-      expect(()=> prop.set({ category: undefined })).to.throw(Error)
+      // expect(()=> prop.set({ category: undefined })).to.throw(Error)
       expect(()=> prop.set({ category: ()=>{}    })).to.throw(Error)
       expect(()=> prop.set({ category: ()=>{}    })).to.throw(Error)
       expect(()=> prop.set({ category: ()=>{}    })).to.throw(Error)
@@ -225,7 +225,7 @@ describe('Clase "Instance"', function() {
       expect(user.get('properties.0.UserProperty.value')).to.be.equal('val2')
       expect(user.get('properties.0.category.name')).to.be.equal('cat1')
     })
-    it('Debe generar un objeto plano de la instancia', function() {
+    it('Debe generar un objeto plano de la instancia, sin atributos o asociaciones indefinidos o vacios', function() {
       let rawUser = {
         password: '123',
         username: 'user1',
@@ -243,7 +243,8 @@ describe('Clase "Instance"', function() {
       }
       let user = new Instance('User', rawUser)
 
-      //Por defecto genera todos los atributos (incluso los no definidos en el modelo) y asociaciones
+      //Por defecto genera todos los atributos (incluso los no definidos en el modelo) y asociaciones,
+      //siempre que su valor no sea "undefined"
       expect( user.get() ).to.eql( rawUser )
       //Si strict = true solo toma en cuenta los atributos definidos en el modelo, ignora los añadidos
       expect( user.get({strict: true}) ).to.eql( _.omit(rawUser, 'xxx') )

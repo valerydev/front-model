@@ -26,7 +26,7 @@ describe('Clase "Model"', function() {
     })
     it('No debe generar valor por defecto para el pk, aunque lo defina el modelo', function() {
       let defaults = models.User.defaults()
-      expect(defaults).not.to.have.property('id')
+      expect(defaults.id).to.be.undefined
     })
     it('Debe permitir obtener solo valores por defecto en atributos requeridos', function() {
       let defaults = models.User.defaults({ strict: true, deep: false })
