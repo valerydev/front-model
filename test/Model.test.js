@@ -30,7 +30,7 @@ describe('Clase "Model"', function() {
     })
     it('Debe permitir obtener solo valores por defecto en atributos requeridos', function() {
       let defaults = models.User.defaults({ strict: true, deep: false })
-      expect(defaults.get()).to.eql({
+      expect(defaults.$get()).to.eql({
         username: 'unnamed',
         password: 'secret'
       })
