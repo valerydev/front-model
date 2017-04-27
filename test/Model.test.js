@@ -41,9 +41,10 @@ describe('Clase "Model"', function() {
       expect(defaults).to.have.property('createdAt').that.equal('')
       expect(defaults).to.have.property('code').that.equal(0)
     })
-    it('Debe generar valores por defecto de asociaciones a uno', function() {
+    it('Debe generar valores por defecto de asociaciones a uno de manera recursiva', function() {
       let defaults = models.Property.defaults({ deep: true })
       expect(defaults).to.have.deep.property('category.name').that.equal('')
+      expect(defaults).to.have.deep.property('category2.name').that.equal('')
     })
     it('Debe permitir generar valores por defecto solo en asociaciones requeridas', function() {
       let defaults = models.Property.defaults({ strict: false, deep: true, plain: true })

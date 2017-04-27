@@ -16,6 +16,10 @@
         "type":"BIGINT",
         "foreignKey":true
       },
+      "categoryId2":{
+        "type":"BIGINT",
+        "foreignKey":true
+      },
       "name":{
         "type":"STRING(255)",
         "validate":{
@@ -48,6 +52,12 @@
       "category":{
         "model":"PropertyCategory",
         "foreignKey": "categoryId",
+        "allowNull": true,
+        "kind":"BelongsTo"
+      },
+      "category2":{
+        "model":"PropertyCategory",
+        "foreignKey": "categoryId2",
         "allowNull": true,
         "kind":"BelongsTo"
       }
