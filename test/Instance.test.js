@@ -145,6 +145,74 @@ describe('Clase "Instance"', function() {
       expect( user.properties.find(1) ).and.to.have.property('defaultValue').that.equal(0)
 
     })
+    describe('Al establecer undefined o null', function() {
+      it('Debe permitir establecer un atributo u asociacion especifico como indefinido', function() {
+        let user = new Instance('User', {
+          username: 'user1',
+          profile: {
+            id: 1,
+            name: 'profile1'
+          },
+          properties: [{
+            id: 1,
+            name: 'prop1',
+          }]
+        })
+
+        user.$set('username',   undefined)
+        user.$set('profile',    undefined)
+        user.$set('properties', undefined)
+
+        expect(user).to.have.property('username'   ).that.is.undefined
+        expect(user).to.have.property('profile'    ).that.is.undefined
+        expect(user).to.have.property('properties' ).that.is.an.instanceOf(InstanceSet).with.lengthOf(0)
+      })
+      it('Debe permitir establecer un atributo u asociacion especifico como nulo', function() {
+        let user = new Instance('User', {
+          username: 'user1',
+          profile: {
+            id: 1,
+            name: 'profile1'
+          },
+          properties: [{
+            id: 1,
+            name: 'prop1',
+          }]
+        })
+
+        user.$set('username',   null)
+        user.$set('profile',    null)
+        user.$set('properties', null)
+
+        expect(user).to.have.property('username'   ).that.is.null
+        expect(user).to.have.property('profile'    ).that.is.null
+        expect(user).to.have.property('properties' ).that.is.an.instanceOf(InstanceSet).with.lengthOf(0)
+      })
+      it('Debe ignorar atributos u asociaciones indefinidas al establecer un objeto', function() {
+        let user = new Instance('User', {
+          username: 'user1',
+          profile: {
+            id: 1,
+            name: 'profile1'
+          },
+          properties: [{
+            id: 1,
+            name: 'prop1',
+          }]
+        })
+
+        user.$set({
+          username  : undefined,
+          profile   : undefined,
+          properties: undefined
+        })
+
+        // Ignora atributos o asociaciones undefined
+        expect(user).to.have.property('username'   ).that.is.equal('user1')
+        expect(user).to.have.property('profile'    ).that.is.an.instanceOf(Instance)
+        expect(user).to.have.property('properties' ).that.is.an.instanceOf(InstanceSet).that.is.not.empty
+      })
+    })
     it('Debe definir una propiedad para cada atributo y asociacion', function() {
       let user = new Instance('User', {
         password: '123',
