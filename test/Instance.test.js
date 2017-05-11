@@ -358,19 +358,20 @@ describe('Clase "Instance"', function() {
     })
     describe('En asociaciones a uno', function() {
       it('Debe detectar modificaciones en asociaciones a uno', function() {
-        let prop = new Instance('Property', {
+        let prop = new Instance('Property', {})
+        prop.category = { id: 1, name: 'category1' }
+        expect(prop.$modified()).to.have.deep.property('category.name').that.equal('category1')
+
+        prop = new Instance('Property', {
           category: {
             id: 1,
             name: 'category1'
           }
         })
-        prop.category = { id: 1, name: 'updatedCategory' }
-
-        expect(prop.$modified()).to.have.deep.property('category.name').that.equal('updatedCategory')
+        prop.category = { id: 1, name: 'updatedCategory' } //If we set the initial value again
+        expect(prop.$modified()).to.have.deep.property('category.name').that.equal('updatedCategory') //Should show no modification
 
         prop.category = { id: 1, name: 'category1' } //If we set the initial value again
-        let modified = prop.$modified()
-
         expect(prop.$modified()).to.be.empty //Should show no modification
       })
       it('Debe detectar cambios de signo entre dos enteros', function() {
