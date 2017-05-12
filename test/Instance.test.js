@@ -231,6 +231,13 @@ describe('Clase "Instance"', function() {
         .that.have.ownPropertyDescriptor('name')
         .that.containSubset(expectedDescriptor).and.include.keys('get', 'set')
     })
+    it('Debe ignorar atributos cuyo nombre no inicie con un caracter alfabetico', function() {
+      let prop = new Instance('Property', {})
+      prop.$set('$custom1', 0)
+      prop.$set('_custom2', 0)
+      expect(prop).not.to.have.property('$custom1')
+      expect(prop).not.to.have.property('_custom2')
+    })
     it('Debe interceptar asignaciones a propiedades de la instancia', function() {
       let user = new Instance('User', { username: '', xxx: '' })
       sinon.spy(user, '$set')
@@ -264,6 +271,12 @@ describe('Clase "Instance"', function() {
       let rawUser = { username: 'user1' }
       let user = new Instance('User', rawUser)
       expect(user.$get('username')).to.be.equal(rawUser.username)
+    })
+    it('Debe ignorar atributos cuyo nombre no inicie con un caracter alfabetico', function() {
+      let prop = new Instance('Property', {})
+      prop.$set('$custom1', 0)
+      prop.$set('_custom2', 0)
+      expect(prop.$get()).to.be.empty
     })
     it('Debe permitir leer una propiedad profunda de la instancia', function(){
       let rawUser = {
@@ -340,6 +353,13 @@ describe('Clase "Instance"', function() {
       expect(modified).to.be.ok
         .and.to.have.property('customAttribute').that.equal(1)
       expect(modified).not.to.have.property('_oid')
+    })
+    it('Debe ignorar atributos ficticios cuyo nombre no inicie con un caracter alfabetico', function(){
+      let prop = new Instance('Property', {})
+      prop.$set('$custom1', 0)
+      prop.$set('_custom2', 0)
+      let modified = prop.$modified()
+      expect(modified).to.be.empty
     })
     it('Debe ignorar atributos tipo funcion', function() {
       let user = new Instance('User', {})
